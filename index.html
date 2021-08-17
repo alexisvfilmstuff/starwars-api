@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+
+    <form>
+      <p>
+        <label for="name">people</label>
+        <input type="text" name="name" id="name">
+      </p>
+      <button id="search">Search</button>
+    </form>
+    <div id="star"></div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  
+  <script>
+  document.getElementById('search').addEventListener('click', event => {
+      event.preventDefault()
+
+      const name = document.getElementById('name').value
+
+      axios.get(`https://swapi.dev/api/people/`)
+        .then(res => {
+      console.log(res)
+
+          const data = res.data.results
+      console.log(data)
+          
+          data.forEach(element => {
+            if (element.name === document.getElementById('name').value) {
+          console.log(element.name)
+              document.getElementById('star').innerHTML = `
+              <h1>${element.name}</h1>
+              <img src="${element.starships[0]}" alt="${element.name}">
+              <h2>Height: ${element.height}</h2>
+              <h2>Eye Color: ${element.eye_color}</h2>
+              <h2>Mass ${element.mass}</h2>
+
+      `
+
+      document.getElementById('name').value = ''
+
+            }
+          });
+          
+         
+        })
+        .catch(err => console.error(err))
+
+    })
+
+</script>
+
+</body>
+</html>
